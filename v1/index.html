@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EESA • Electrical Engineering Students Association | DYPSEM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dyp: {
+                            50: '#fdfcf7',
+                            100: '#faf6ee',
+                            800: '#1e293b',
+                            900: '#0b1329', // Deep royal navy blue from college branding
+                            gold: '#d97706', // Premium Amber Gold from college logos
+                            goldLight: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#070b19] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-black">
+
+    <!-- STICKY HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#0b1329]/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-600 flex items-center justify-center text-[#070b19] font-black text-2xl shadow-lg shadow-amber-500/20">
+                    <i class="fa-solid fa-charging-station"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-white block">EESA <span class="text-amber-400 font-normal text-sm">| DYPSEM</span></span>
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold block">Electrical Students Association</span>
+                </div>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
+                <a href="#about" class="hover:text-amber-400 transition-colors">About</a>
+                <a href="#labs" class="hover:text-amber-400 transition-colors">Laboratories</a>
+                <a href="#events" class="hover:text-amber-400 transition-colors">Events</a>
+                <a href="#quiz" class="hover:text-amber-400 transition-colors">Live Quiz</a>
+                <a href="#portal" class="hover:text-amber-400 transition-colors">Membership Portal</a>
+            </nav>
+
+            <a href="#portal" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-amber-500/25">
+                <i class="fa-solid fa-circle-user text-base"></i>
+                <span>Portal Login</span>
+            </a>
+        </div>
+    </header>
+
+    <! -- HERO SECTION (#home) -->
+    <section id="home" class="relative pt-32 pb-24 md:pt-48 md:pb-36 overflow-hidden">
+        <div class="absolute inset-0 bg- pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(14,165,233,0.1),transparent_50%)] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Institutional Affiliation Badge -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold tracking-wide uppercase mb-8">
+                <i class="fa-solid fa-award text-sm animate-bounce text-amber-300"></i>
+                <span>NAAC A++ Accredited • DYP Deemed to be University, Kolhapur</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-tight">
+                Shaping the Future of <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-sky-400">
+                    Energy, Power & Automation
+                </span>
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                Welcome to the official <strong>Electrical Engineering Students Association (EESA)</strong> portal of D.Y. Patil School of Engineering & Management. Connecting academia directly with next-gen power technology.
+            </p>
+
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <a href="#portal" class="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold transition shadow-lg shadow-amber-500/35 flex items-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Student Login Portal</span>
+                </a>
+                <a href="#events" class="px-8 py-4 rounded-xl bg-[#0b1329] hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold transition">
+                    Technologia '26 Schedule
+                </a>
+            </div>
+
+            <!-- Awards / Accolades Showcase -->
+            <div class="mt-20 max-w-4xl mx-auto bg-amber-500/5 border border-amber-500/20 p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6 text-left">
+                <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-3xl shrink-0">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-1">Best Performing Department Award — 2026</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        DYPSEM's Electrical Engineering Department was honored with the distinguished "Best Performing Electrical Engineering Department" accolade at the prestigious 6th EduSkills Conclave, Jaipur.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION (#about) -->
+    <section id="about" class="py-24 bg-[#0b1329]/40 border-t border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-xs uppercase font-bold tracking-widest text-amber-400 mb-2">Our Vision</h2>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-6">Bridging Theoretical Foundations With Sustainable Engineering Practices</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">
+                        The Electrical Engineering curriculum at DYPSEM emphasizes high-demand emerging technologies like Renewable Energy Systems, Electric Vehicle Powertrains, Smart Grids, Control Systems, and Power Electronics to align directly with modern industry standards.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                                <i class="fa-solid fa-solar-panel"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-base">Renewable Energy Systems & Smart Grids</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">Focusing heavily on clean power integration and high-voltage transmission topologies.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                                <i class="fa-solid fa-car-battery"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-base">Electric Vehicle Technology</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">Hands-on experimentation with battery management architectures and power drive configurations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-[#0b1329]/80 border border-slate-800 p-8 rounded-2xl relative shadow-xl">
+                    <h4 class="text-xl font-extrabold text-white mb-4">Value-Added Activities</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                        EESA actively drives community outreach, national hackathons, and technical symposiums to build strong project-based student portfolios.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="text-2xl font-black text-amber-400">140+</div>
+                            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Scholarships Annually</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                            <div class="text-2xl font-black text-sky-400">24-Hr</div>
+                            <div class="text-[11px] text-slate-400 uppercase tracking-wider mt-1">Hackoutsav Event</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABORATORIES (#labs) -->
+    <section id="labs" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs uppercase font-bold tracking-widest text-sky-400 mb-2">Modern Infrastructure</h2>
+                <h3 class="text-3xl font-extrabold text-white">Departmental Laboratories</h3>
+                <p class="text-sm text-slate-400 mt-2">Well-equipped labs using premium industry instruments and simulation suites.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="rounded-2xl overflow-hidden bg-[#0b1329]/60 border border-slate-800 hover:border-amber-500/40 transition-all duration-300">
+                    <div class="h-44 bg-slate-900/80 flex items-center justify-center text-slate-700">
+                        <i class="fa-solid fa-gears text-5xl text-amber-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-bold text-white mb-2">AC Machines & Transformer Lab</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">Hands-on training facilities for testing, operating, and analyzing complex multi-winding transformers and industrial AC machines.</p>
+                        <span class="text-[10px] uppercase font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded">Heavy Power Lab</span>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl overflow-hidden bg-[#0b1329]/60 border border-slate-800 hover:border-amber-500/40 transition-all duration-300">
+                    <div class="h-44 bg-slate-900/80 flex items-center justify-center text-slate-700">
+                        <i class="fa-solid fa-microchip text-5xl text-sky-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-bold text-white mb-2">Power Electronics & Drives</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">Testing facilities for thyristor firing circuits, micro-choppers, cycle-converters, and DSP controllers.</p>
+                        <span class="text-[10px] uppercase font-bold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded">Control Lab</span>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl overflow-hidden bg-[#0b1329]/60 border border-slate-800 hover:border-amber-500/40 transition-all duration-300">
+                    <div class="h-44 bg-slate-900/80 flex items-center justify-center text-slate-700">
+                        <i class="fa-solid fa-tower-broadcast text-5xl text-emerald-500/50"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-bold text-white mb-2">Switchgear & Protection Lab</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">Equipped with numeric micro-processor relays, over-current relay benches, and simulated transmission fault lines.</p>
+                        <span class="text-[10px] uppercase font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded">Grid Security</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS (#events) -->
+    <section id="events" class="py-24 bg-[#0b1329]/40 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-xs uppercase font-bold tracking-widest text-amber-400 mb-2">Live Calendar</h2>
+                    <h3 class="text-3xl font-extrabold text-white">Technologia '26 & Campus Symposiums</h3>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <span class="text-xs text-slate-400 uppercase tracking-widest font-semibold"><i class="fa-solid fa-location-dot text-amber-500 mr-1 animate-pulse"></i> DYPSEM Campus</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Event 1: Hackoutsav -->
+                <div class="p-6 rounded-2xl bg-[#0b1329] border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs mb-3">
+                            <span class="text-amber-400 font-bold uppercase"><i class="fa-solid fa-hourglass-start mr-1"></i> Registration Closing Soon</span>
+                            <span class="text-slate-500">National Hackathon</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-2">HACKOUTSAV 2026: 24-Hr Hackathon</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                            Join our flagship national-level hackathon. Form teams of 2 to 4 to conceptualize, prototype, and demo working software/hardware solutions with a grand prize pool of ₹50,000.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                        <span class="text-xs text-slate-400"><i class="fa-regular fa-calendar text-amber-500 mr-1"></i> Register by April 07, 2026</span>
+                        <a href="https://unstop.com/hackathons/hackoutsav-d-y-patil-school-of-engineering-and-management-dypsem-kolhapur-1653004" target="_blank" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold text-xs rounded-lg hover:bg-amber-400 transition">View on Unstop</a>
+                    </div>
+                </div>
+
+                <!-- Event 2: Technologia Circuit-O-Mania -->
+                <div class="p-6 rounded-2xl bg-[#0b1329] border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs mb-3">
+                            <span class="text-emerald-400 font-bold uppercase"><i class="fa-regular fa-circle-play mr-1"></i> Lab Active</span>
+                            <span class="text-slate-500">Technologia Symposium</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-2">Technologia '26: Circuit-O-Mania</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                            The ultimate circuit-building and troubleshooting challenge for undergraduate engineers. Debug, design, and prototype on high-speed industrial simulation desks.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                        <span class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Electrical Dept, Lab 2</span>
+                        <a href="#portal" class="px-4 py-2 bg-slate-800 text-slate-200 font-bold text-xs rounded-lg hover:bg-slate-700 transition">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE INTERACTIVE QUIZ SECTION (#quiz) -->
+    <section id="quiz" class="py-24 border-t border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-xs uppercase font-bold tracking-widest text-amber-400 mb-2">Interactive Quiz</h2>
+                <h3 class="text-3xl font-extrabold text-white">EESA Knowledge Arena</h3>
+                <p class="text-xs text-slate-400 mt-2">Test your concepts in Electrical engineering and claim rewards.</p>
+            </div>
+
+            <div id="quiz-block" class="p-8 rounded-2xl bg-[#0b1329] border border-slate-800 shadow-xl">
+                <div class="flex items-center justify-between text-xs text-slate-500 mb-6 pb-4 border-b border-slate-800">
+                    <span>Category: <strong>Power Systems</strong></span>
+                    <span>Active Questions: <strong>1/1</strong></span>
+                </div>
+                
+                <h4 class="text-lg font-bold text-white mb-6">Q: What gas is produced within a transformer when an internal incipient fault occurs, triggering the Buchholz relay?</h4>
+                
+                <div class="space-y-3">
+                    <button onclick="checkQuizAnswer(1)" class="w-full text-left p-4 rounded-xl bg-[#070b19] border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all text-sm">A) Pure Oxygen</button>
+                    <button onclick="checkQuizAnswer(2)" class="w-full text-left p-4 rounded-xl bg-[#070b19] border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all text-sm">B) Hydrocarbon Gases (Hydrogen & Methane)</button>
+                    <button onclick="checkQuizAnswer(3)" class="w-full text-left p-4 rounded-xl bg-[#070b19] border border-slate-800 hover:border-amber-500/50 hover:bg-slate-900 transition-all text-sm">C) Pure Nitrogen</button>
+                </div>
+
+                <div id="quiz-alert" class="hidden mt-6 p-4 rounded-xl text-center font-bold text-sm"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBERSHIP PORTAL (#portal) -->
+    <section id="portal" class="py-24 bg-[#0b1329]/60 border-t border-b border-slate-800/80">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-xs uppercase font-bold tracking-widest text-amber-400 mb-2">Member Login</h2>
+                <h3 class="text-3xl font-extrabold text-white">EESA Student & Committee Dashboard</h3>
+                <p class="text-xs text-slate-400 mt-2">Access event lists, role permissions, and committee notifications.</p>
+            </div>
+
+            <!-- Login Area -->
+            <div id="anonymous-dashboard" class="max-w-md mx-auto p-8 rounded-2xl bg-[#0b1329] border border-slate-800 shadow-2xl">
+                <h3 class="text-lg font-bold text-white mb-2">Authentication</h3>
+                <p class="text-xs text-slate-400 mb-6">Sign in with your credentials. Registration auto-assigns the "Student" role.</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Email Address</label>
+                        <input id="user-email" type="email" placeholder="student@dypatilunikop.org" class="w-full px-4 py-3 rounded-xl bg-[#070b19] border border-slate-800 text-sm focus:outline-none focus:border-amber-500 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Password</label>
+                        <input id="user-pass" type="password" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-[#070b19] border border-slate-800 text-sm focus:outline-none focus:border-amber-500 text-white">
+                    </div>
+                    
+                    <div class="flex gap-3 pt-2">
+                        <button id="btn-login" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition">Sign In</button>
+                        <button id="btn-signup" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sm font-semibold text-slate-200 transition">Register</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Authenticated Member Dashboard -->
+            <div id="authenticated-dashboard" class="hidden p-8 rounded-2xl bg-[#0b1329] border border-slate-800 shadow-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800 mb-6">
+                    <div>
+                        <span class="text-xs text-slate-400">Welcome back,</span>
+                        <h4 id="auth-email-label" class="text-lg font-extrabold text-white">student@dypatilunikop.org</h4>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span id="auth-role-badge" class="px-3 py-1 text-[11px] font-bold tracking-wider rounded uppercase bg-slate-800 text-slate-300">Student</span>
+                        <button id="btn-logout" class="text-xs text-rose-400 hover:underline">Sign Out</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Standard Student Views -->
+                    <div>
+                        <h5 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4"><i class="fa-solid fa-graduation-cap text-amber-500 mr-1"></i> Active Student Resources</h5>
+                        <ul class="space-y-3">
+                            <li class="p-3.5 rounded-xl bg-[#070b19] border border-slate-800 flex items-center justify-between text-xs">
+                                <span>Technologia '26 Guide.pdf</span>
+                                <a href="#" class="text-amber-400 font-bold hover:underline"><i class="fa-solid fa-download"></i></a>
+                            </li>
+                            <li class="p-3.5 rounded-xl bg-[#070b19] border border-slate-800 flex items-center justify-between text-xs">
+                                <span>Lab Cover Sheet Template.docx</span>
+                                <a href="#" class="text-amber-400 font-bold hover:underline"><i class="fa-solid fa-download"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Executive / Committee Admin Views (Visible to 'admin' and 'committee' roles only) -->
+                    <div id="admin-view-panel" class="hidden opacity-50 pointer-events-none transition-opacity duration-300">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i class="fa-solid fa-shield-halved text-amber-400"></i>
+                            <h5 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Committee Control Room</h5>
+                        </div>
+                        <div class="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5">
+                            <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                                Account Authorization unlocked. You have the access key required to edit dashboard listings and assign event statuses.
+                            </p>
+                            <button onclick="alert('Access Granted: Loaded Live Registrations Database (Firestore Sync)')" class="w-full py-2.5 bg-amber-500 text-slate-950 font-bold text-xs rounded-lg hover:bg-amber-400 transition">View Registrations</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-16 bg-[#070b19] border-t border-slate-900 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12 text-left">
+                <div>
+                    <span class="text-lg font-bold text-white block mb-3">EESA • DYPSEM</span>
+                    <p class="text-slate-400 leading-relaxed">
+                        Electrical Engineering Students Association<br>
+                        D.Y. Patil School of Engineering & Management, Kasaba Bawada, Kolhapur, Maharashtra 416006.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold uppercase tracking-wider mb-3">Institutional Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="https://dypatilunikop.org/school-of-engineering-management-kolhapur/" target="_blank" class="hover:text-amber-400 transition">DYPSEM Homepage</a></li>
+                        <li><a href="https://sem.dypatilunikop.org/" target="_blank" class="hover:text-amber-400 transition">Admissions 2026-27</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold uppercase tracking-wider mb-3">Inquiries</h5>
+                    <p class="mb-2"><i class="fa-solid fa-envelope mr-2 text-amber-500"></i> eesa.dypsem@dypatilunikop.org</p>
+                    <p><i class="fa-solid fa-phone mr-2 text-amber-500"></i> Campus Helpline: +91 7030695999</p>
+                </div>
+            </div>
+            <div class="text-center pt-8 border-t border-slate-900 text-slate-700">
+                &copy; 2026 EESA - Electrical Engineering Department, DYPSEM. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Connection Engine Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } 
+               from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } 
+               from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Web Configuration Credentials
+        const firebaseConfig = {
+
+apiKey: "AIzaSyAA0Z3wxVTZfnycymlMnLg2DBfWiEV7LhM",  
+  authDomain: "eesa-association-dypsem.firebaseapp.com",  
+  projectId: "eesa-association-dypsem",  
+  storageBucket: "eesa-association-dypsem.firebasestorage.app",  
+  messagingSenderId: "904621731688",  
+  appId: "1:904621731688:web:e72541588ac301002d30dd"
+
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Core UI Handlers
+        const anonDash = document.getElementById("anonymous-dashboard");
+        const authDash = document.getElementById("authenticated-dashboard");
+        const emailLabel = document.getElementById("auth-email-label");
+        const roleBadge = document.getElementById("auth-role-badge");
+        const adminPanel = document.getElementById("admin-view-panel");
+
+        // Auth Listener State Watcher
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                anonDash.classList.add("hidden");
+                authDash.classList.remove("hidden");
+                emailLabel.innerText = user.email;
+
+                // Sync user document from Firestore to find customized committee privileges
+                let userRole = "student";
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists()) {
+                        userRole = userDoc.data().role || "student";
+                    } else {
+                        // Create default student document if missing
+                        await setDoc(doc(db, "users", user.uid), {
+                            email: user.email,
+                            role: "student"
+                        });
+                    }
+                } catch(e) {
+                    console.log("Firestore sync bypassed or initializing permissions.");
+                }
+
+                // Apply dynamic Role Permissions styling
+                roleBadge.innerText = userRole.toUpperCase();
+                if (userRole === "admin" || userRole === "committee") {
+                    roleBadge.className = "px-3 py-1 text-[11px] font-bold tracking-wider rounded uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30";
+                    adminPanel.classList.remove("hidden", "opacity-50", "pointer-events-none");
+                } else {
+                    roleBadge.className = "px-3 py-1 text-[11px] font-bold tracking-wider rounded uppercase bg-slate-800 text-slate-300";
+                    adminPanel.classList.add("hidden");
+                }
+            } else {
+                anonDash.classList.remove("hidden");
+                authDash.classList.add("hidden");
+            }
+        });
+
+        // Trigger Logins
+        document.getElementById("btn-login").addEventListener("click", async () => {
+            const email = document.getElementById("user-email").value;
+            const pass = document.getElementById("user-pass").value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                alert("Login Error: " + err.message);
+            }
+        });
+
+        // Trigger Registrations
+        document.getElementById("btn-signup").addEventListener("click", async () => {
+            const email = document.getElementById("user-email").value;
+            const pass = document.getElementById("user-pass").value;
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                await setDoc(doc(db, "users", cred.user.uid), {
+                    email: email,
+                    role: "student"
+                });
+                alert("Registration successful! Welcome to EESA.");
+            } catch (err) {
+                alert("Registration Error: " + err.message);
+            }
+        });
+
+        // Trigger Logout
+        document.getElementById("btn-logout").addEventListener("click", () => {
+            signOut(auth);
+        });
+    </script>
+
+    <script>
+        // Quiz Engine Helper Action
+        function checkQuizAnswer(selectedOption) {
+            const alertBox = document.getElementById("quiz-alert");
+            alertBox.classList.remove("hidden");
+            
+            if (selectedOption === 2) {
+                alertBox.innerText = "🎉 Correct! Hydrogen and Methane are produced during internal faults. Well done!";
+                alertBox.className = "mt-6 p-4 rounded-xl text-center font-bold text-sm bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+            } else {
+                alertBox.innerText = "❌ Incorrect answer. Tip: Think about the chemical composition of oil decomposition products. Try again!";
+                alertBox.className = "mt-6 p-4 rounded-xl text-center font-bold text-sm bg-rose-500/15 text-rose-400 border border-rose-500/30";
+            }
+        }
+    </script>
+</body>
+</html>

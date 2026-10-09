@@ -1,0 +1,51 @@
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile,deleteUser,setPersistence,browserLocalPersistence,browserSessionPersistence,inMemoryPersistence} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,getDocs,query,where,orderBy,limit,serverTimestamp,setDoc,addDoc,updateDoc} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAA0Z3wxVTZfnycymlMnLg2DBfWiEV7LhM",
+  authDomain:"eesa-association-dypsem.firebaseapp.com",
+  projectId:"eesa-association-dypsem",
+  storageBucket:"eesa-association-dypsem.firebasestorage.app",
+  messagingSenderId:"904621731688",
+  appId:"1:904621731688:web:e72541588ac301002d30dd"
+};
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+
+// Prefer normal persistence, but gracefully fall back for private/incognito browsers
+// where persistent storage may be restricted.
+export async function prepareAuthPersistence(){
+  const attempts=[browserLocalPersistence,browserSessionPersistence,inMemoryPersistence];
+  for(const persistence of attempts){
+    try{
+      await Promise.race([
+        setPersistence(auth,persistence),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error("AUTH_PERSISTENCE_TIMEOUT")),1500))
+      ]);
+      return persistence;
+    }catch{}
+  }
+  return null;
+}
+
+export {auth,db,collection,doc,getDoc,getDocs,query,where,orderBy,limit,serverTimestamp,setDoc,addDoc,updateDoc,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,updateProfile,deleteUser,setPersistence,browserLocalPersistence,browserSessionPersistence,inMemoryPersistence,onAuthStateChanged};
+
+export async function getEffectiveRole(uid){
+  const u=await getDoc(doc(db,"users",uid));
+  const user=u.exists()?u.data():{};
+  if(user.role==="superAdmin"||user.role==="admin") return user.role;
+
+  const c=await getDoc(doc(db,"committee","current"));
+  const members=c.exists()?(c.data().members||{}):{};
+  const member=members[uid];
+  return member?.position ? `committee:${member.position}` : "student";
+}
+
+export async function getCurrentCommitteeMember(uid){
+  const c=await getDoc(doc(db,"committee","current"));
+  if(!c.exists()) return null;
+  return (c.data().members||{})[uid]||null;
+}
+
+export const isPrivileged=r=>r==="admin"||r==="superAdmin"||r.startsWith("committee:");
+export const isAdmin=r=>r==="admin"||r==="superAdmin";

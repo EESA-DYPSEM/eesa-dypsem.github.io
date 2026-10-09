@@ -1,0 +1,24 @@
+import {auth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,doc,getDoc,setDoc} from "./firebase.js";
+import {getPublished} from "./services/content.js";
+import {isPrivileged,getEffectiveRole} from "./firebase.js";
+import {toast} from "./ui/toast.js";
+
+const $=id=>document.getElementById(id), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+async function ensureUser(u){const ref=doc((await import("./firebase.js")).db,"users",u.uid);const snap=await getDoc(ref);if(!snap.exists())await setDoc(ref,{uid:u.uid,email:u.email||"",role:"student",createdAt:new Date().toISOString()});}
+async function render(){
+  const [events,projects,notices]=await Promise.all([getPublished("events",20),getPublished("projects",20),getPublished("notices",20)]);
+  $("dash-events").textContent=events.length;$("dash-projects").textContent=projects.length;$("dash-notices").textContent=notices.length;
+  $("portal-events").innerHTML=events.map(e=>`<div class="stack-item"><div><strong>${esc(e.title)}</strong><small>${esc(e.venue||"Campus")} • ${e.startAt?new Date(e.startAt).toLocaleDateString("en-IN"):"Date TBA"}</small></div></div>`).join("")||"<div class='notice'>No published events.</div>";
+  $("portal-projects").innerHTML=projects.map(p=>`<div class="stack-item"><div><strong>${esc(p.title)}</strong><small>${esc((p.techStack||[]).join(" • "))}</small></div><button class="btn ghost" disabled>Express interest — next step</button></div>`).join("")||"<div class='notice'>No published projects.</div>";
+  $("portal-notices").innerHTML=notices.map(n=>`<div class="stack-item"><div><strong>${esc(n.title)}</strong><small>${esc(n.category||"General")} ${n.pinned?"• Pinned":""}</small></div></div>`).join("")||"<div class='notice'>No published notices.</div>";
+}
+$("login").onclick=async()=>{try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);$("auth-message").textContent=""}catch(e){$("auth-message").textContent="Sign-in failed. Check your email/password."}};
+$("signup").onclick=async()=>{try{const c=await createUserWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);await ensureUser(c.user);$("auth-message").textContent="Account created."}catch(e){$("auth-message").textContent=e.code==="auth/email-already-in-use"?"Account already exists. Sign in instead.":"Could not create account."}};
+$("logout").onclick=()=>signOut(auth);
+onAuthStateChanged(auth,async u=>{
+  if(!u){$("auth-card").classList.remove("hidden");$("portal-app").classList.add("hidden");return}
+  await ensureUser(u);$("auth-card").classList.add("hidden");$("portal-app").classList.remove("hidden");
+  const role=await getEffectiveRole(u.uid);$("welcome").textContent=`Welcome, ${u.displayName||u.email?.split("@")[0]||"student"}`;$("role-line").textContent=`Access: ${role}`;
+  if(isPrivileged(role))$("committee-entry").classList.remove("hidden");
+  try{await render()}catch(e){toast("Could not load portal content.")};
+});

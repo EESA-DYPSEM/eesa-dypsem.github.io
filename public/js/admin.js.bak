@@ -1,0 +1,67 @@
+import {auth,signOut,getEffectiveRole,getCurrentCommitteeMember,doc,getDoc,getDocs,collection,setDoc,serverTimestamp} from "./firebase.js";
+import {getAll,createContent} from "./services/content.js";
+import {toast} from "./ui/toast.js";
+
+const $=id=>document.getElementById(id), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+let currentUser=null,currentType=null,users=[];
+const dialog=$("content-dialog");
+const positions=[
+  ["president","President","manage_committee,manage_content,manage_events,manage_projects,manage_notices,manage_notifications,manage_quizzes,manage_settings"],
+  ["vicePresident","Vice President","manage_content,manage_events,manage_projects,manage_notices"],
+  ["secretary","Secretary","manage_content,manage_notices"],
+  ["treasurer","Treasurer","manage_content"],
+  ["technicalHead","Technical Head","manage_content,manage_projects,manage_quizzes"],
+  ["eventHead","Event Head","manage_events,manage_notices"],
+  ["publicityHead","Publicity / Media Head","manage_content"],
+  ["member","Committee Member","manage_content"]
+];
+
+function fields(type){
+ if(type==="event")return `<label>Event title<input name="title" required></label><label>Short description<textarea name="shortDescription"></textarea></label><label>Full description<textarea name="description"></textarea></label><label>Event type<select name="eventType"><option>Workshop</option><option>Competition</option><option>Technical event</option><option>Talk</option><option>Visit</option><option>Other</option></select></label><label>Start date/time<input name="startAt" type="datetime-local" required></label><label>End date/time<input name="endAt" type="datetime-local"></label><label>Venue<input name="venue"></label><label>Registration link<input name="registrationUrl" type="url"></label><label>Publish now<select name="status"><option value="draft">Save draft</option><option value="published">Publish</option></select></label>`;
+ if(type==="project")return `<label>Project title<input name="title" required></label><label>Description<textarea name="description" required></textarea></label><label>Tech stack<input name="techStack" placeholder="Arduino, IoT, Power Electronics"></label><label>Open roles<input name="openRoles" placeholder="Embedded, PCB, Documentation"></label><label>Deadline<input name="deadline" type="date"></label><label>Visibility<select name="visibility"><option value="public">Public</option><option value="members">Members only</option></select></label><label>Publish now<select name="status"><option value="draft">Save draft</option><option value="published">Publish</option></select></label>`;
+ return `<label>Notice title<input name="title" required></label><label>Message<textarea name="body" required></textarea></label><label>Category<select name="category"><option>General</option><option>Event</option><option>Competition</option><option>Committee</option><option>Urgent</option></select></label><label>Priority<select name="priority"><option>normal</option><option>high</option></select></label><label>Pin to top<select name="pinned"><option value="false">No</option><option value="true">Yes</option></select></label><label>Publish now<select name="status"><option value="draft">Save draft</option><option value="published">Publish</option></select></label>`;
+}
+function normalize(form,type){const o=Object.fromEntries(new FormData(form).entries());if(type==="project"){o.techStack=o.techStack?o.techStack.split(",").map(x=>x.trim()).filter(Boolean):[];o.openRoles=o.openRoles?o.openRoles.split(",").map(x=>x.trim()).filter(Boolean):[]}if(type==="notice")o.pinned=o.pinned==="true";if(type==="event"){if(o.startAt)o.startAt=new Date(o.startAt).toISOString();if(o.endAt)o.endAt=new Date(o.endAt).toISOString()}return o}
+
+async function refresh(){
+ const [events,projects,notices]=await Promise.all([getAll("events",10),getAll("projects",10),getAll("notices",10)]);
+ $("admin-stats").innerHTML=[["Events",events.length],["Projects",projects.length],["Notices",notices.length],["Members",users.length||"—"]].map(x=>`<div class="admin-stat"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join("");
+ const list=(arr,kind)=>arr.map(x=>`<div class="stack-item"><div><strong>${esc(x.title)}</strong><small>${esc(x.status||"draft")} • ${kind}</small></div></div>`).join("")||"<div class='notice'>Nothing here yet.</div>";
+ $("admin-events").innerHTML=list(events,"event");$("admin-projects").innerHTML=list(projects,"project");$("admin-notices").innerHTML=list(notices,"notice");
+}
+
+async function loadUsersAndCommittee(){
+ const [us,cs]=await Promise.all([getDocs(collection((await import("./firebase.js")).db,"users")),getDoc(doc((await import("./firebase.js")).db,"committee","current"))]);
+ users=us.docs.map(d=>({uid:d.id,...d.data()})).filter(u=>u.role!=="superAdmin");
+ const members=cs.exists()?(cs.data().members||{}):{};
+ $("committee-fields").innerHTML=positions.map(([key,label,perms])=>{
+   const selected=Object.entries(members).find(([,m])=>m.position===key)?.[0]||"";
+   const options=`<option value="">Unassigned</option>`+users.map(u=>`<option value="${esc(u.uid)}" ${u.uid===selected?"selected":""}>${esc(u.name||u.email||u.uid)}</option>`).join("");
+   return `<div class="committee-row"><label>${label}<select data-position="${key}" data-permissions="${perms}">${options}</select><div class="permission-note">${perms.split(",").join(" • ")}</div></label></div>`;
+ }).join("");
+}
+
+$("save-committee").onclick=async()=>{
+ try{
+  const memberMap={};
+  document.querySelectorAll("#committee-fields select").forEach(s=>{if(s.value)memberMap[s.value]={position:s.dataset.position,permissions:s.dataset.permissions.split(",")}});
+  const db=(await import("./firebase.js")).db;
+  await setDoc(doc(db,"committee","current"),{members:memberMap,updatedAt:serverTimestamp(),updatedBy:currentUser.uid},{merge:true});
+  toast("Committee updated.");await loadUsersAndCommittee();
+ }catch(e){console.error(e);toast("Committee save failed. Check your permissions.")}
+};
+
+document.querySelectorAll("[data-open-form]").forEach(b=>b.onclick=()=>{currentType=b.dataset.openForm;$("form-eyebrow").textContent=`Create ${currentType}`;$("form-title").textContent=`New ${currentType}`;$("form-fields").innerHTML=fields(currentType);dialog.showModal()});
+$("content-form").onsubmit=async e=>{e.preventDefault();try{await createContent(currentType,normalize(e.target,currentType),currentUser);dialog.close();toast(`${currentType} saved.`);await refresh()}catch(err){console.error(err);toast("Save failed. Check Firestore Rules.")}};
+
+onAuthStateChanged(auth,async u=>{
+ currentUser=u;
+ if(!u){$("admin-denied").classList.remove("hidden");return}
+ const role=await getEffectiveRole(u.uid),member=await getCurrentCommitteeMember(u.uid);
+ if(!(role==="admin"||role==="superAdmin"||member)){$("admin-denied").classList.remove("hidden");return}
+ $("admin-app").classList.remove("hidden");
+ if(!(role==="admin"||role==="superAdmin"||member?.permissions?.includes("manage_committee"))){
+   document.querySelector(".committee-panel")?.classList.add("hidden");
+ }
+ try{await loadUsersAndCommittee();await refresh()}catch(e){console.error(e);toast("Could not load Control Room data.")}
+});

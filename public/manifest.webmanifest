@@ -1,0 +1,12 @@
+{
+  "name": "EESA DYPSEM",
+  "short_name": "EESA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07101f",
+  "theme_color": "#07101f",
+  "icons": [
+    {"src":"./assets/favicon.ico","sizes":"256x256","type":"image/x-icon"},
+    {"src":"./assets/icons/eesa-icon.ico","sizes":"256x256","type":"image/x-icon"}
+  ]
+}

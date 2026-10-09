@@ -1,0 +1,126 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function currentCommittee() {
+      return get(/databases/$(database)/documents/committee/current).data;
+    }
+
+    function committeeMember() {
+      return signedIn()
+        && currentCommittee().members.get(request.auth.uid, null) != null;
+    }
+
+    function hasPermission(permission) {
+      return committeeMember()
+        && currentCommittee().members
+            .get(request.auth.uid, {})
+            .get('permissions', [])
+            .hasAny([permission]);
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+            in ['admin', 'superAdmin'];
+    }
+
+    function can(permission) {
+      return isAdmin() || hasPermission(permission);
+    }
+
+    function publishedOrSignedIn() {
+      return resource.data.status == 'published' || signedIn();
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin() || can('manage_committee'));
+      allow create: if signedIn()
+                    && request.auth.uid == uid
+                    && request.resource.data.role == 'student';
+      allow update: if (signedIn() && request.auth.uid == uid
+                        && request.resource.data.role == resource.data.role)
+                    || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /committee/{docId} {
+      allow read: if signedIn();
+      allow write: if can('manage_committee');
+    }
+
+    match /events/{id} {
+      allow read: if publishedOrSignedIn();
+      allow create: if can('manage_events');
+      allow update, delete: if can('manage_events');
+    }
+
+    match /projects/{id} {
+      allow read: if publishedOrSignedIn();
+      allow create: if can('manage_projects');
+      allow update, delete: if can('manage_projects');
+    }
+
+    match /notices/{id} {
+      allow read: if publishedOrSignedIn();
+      allow create: if can('manage_notices');
+      allow update, delete: if can('manage_notices');
+    }
+
+    match /projectApplications/{id} {
+      allow read: if signedIn()
+                  && (request.auth.uid == resource.data.applicantId
+                      || can('manage_projects'));
+      allow create: if signedIn()
+                    && request.auth.uid == request.resource.data.applicantId;
+      allow update: if signedIn()
+                    && (request.auth.uid == resource.data.applicantId
+                        || can('manage_projects'));
+      allow delete: if can('manage_projects');
+    }
+
+    match /eventRegistrations/{id} {
+      allow read: if signedIn()
+                  && (request.auth.uid == resource.data.userId
+                      || can('manage_events'));
+      allow create: if signedIn()
+                    && request.auth.uid == request.resource.data.userId;
+      allow update: if signedIn()
+                    && (request.auth.uid == resource.data.userId
+                        || can('manage_events'));
+      allow delete: if signedIn()
+                    && (request.auth.uid == resource.data.userId
+                        || can('manage_events'));
+    }
+
+    match /notifications/{id} {
+      allow read: if signedIn() && request.auth.uid == resource.data.userId;
+      allow update: if signedIn() && request.auth.uid == resource.data.userId;
+      allow create, delete: if can('manage_notifications');
+    }
+
+    match /achievements/{id} {
+      allow read: if resource.data.status == 'published' || signedIn();
+      allow create, update, delete: if can('manage_content');
+    }
+
+    match /gallery/{id} {
+      allow read: if resource.data.status == 'published' || signedIn();
+      allow create, update, delete: if can('manage_content');
+    }
+
+    match /siteSettings/{id} {
+      allow read: if true;
+      allow write: if can('manage_settings');
+    }
+
+    match /quizEvents/{id} {
+      allow read: if resource.data.status == 'published' || signedIn();
+      allow create, update, delete: if can('manage_quizzes');
+    }
+  }
+}

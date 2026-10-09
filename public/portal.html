@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07101f"><title>EESA • Login Portal</title>
+  <link rel="stylesheet" href="./css/app.css?v=4.1"><link rel="icon" href="./assets/favicon.ico"><link rel="manifest" href="./manifest.webmanifest">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="./index.html"><span class="brand-mark">E</span><span><b>EESA</b><small>Login Portal</small></span></a><a class="text-link" href="./index.html">← Public site</a></header>
+<main class="portal-shell">
+  <section id="auth-card" class="auth-card">
+    <div class="eyebrow" id="auth-eyebrow">EESA member access</div>
+    <h1 id="auth-title">Welcome to your EESA space.</h1>
+    <p id="auth-intro">Sign in to see applications, registrations, projects and member-only notices.</p>
+
+    <div id="login-form">
+      <label>Email or username<input id="login-identity" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="you@college.edu or @username" required></label>
+      <label>Password<input id="login-password" type="password" autocomplete="current-password" placeholder="Your password" required></label>
+      <div class="actions"><button id="login" type="button" class="btn primary">Sign in</button><button id="show-signup" class="btn ghost">Create student account</button></div>
+    </div>
+
+    <form id="signup-form" class="hidden">
+      <div class="form-grid">
+        <label>Full name *<input id="signup-name" name="name" autocomplete="name" required></label>
+        <label>Username *<input id="signup-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="rahul.patil" pattern="[A-Za-z0-9._-]{3,24}" minlength="3" maxlength="24" required></label>
+        <label>PRN / Student ID *<input id="signup-prn" name="prn" autocomplete="off" required></label>
+        <label>College email *<input id="signup-email" name="email" type="email" autocomplete="email" required></label>
+        <label>Mobile number<input id="signup-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel"></label>
+        <label>Department *<input id="signup-department" name="department" value="Electrical Engineering" required></label>
+        <label>Year / semester *<select id="signup-semester" name="semester" required><option value="">Select</option><option>FY • Semester 1</option><option>FY • Semester 2</option><option>SY • Semester 3</option><option>SY • Semester 4</option><option>TY • Semester 5</option><option>TY • Semester 6</option><option>Final Year • Semester 7</option><option>Final Year • Semester 8</option></select></label>
+        <label>Division<input id="signup-division" name="division" placeholder="A / B / C"></label>
+        <label>Password *<input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="6" required></label>
+        <label>Confirm password *<input id="signup-confirm" name="confirm" type="password" autocomplete="new-password" minlength="6" required></label>
+      </div>
+      <p class="muted-note signup-note">Use your real student details. Your username is unique and can be used to sign in. Your account starts as a Student; committee access is assigned separately by EESA administration.</p>
+      <div class="actions"><button type="submit" class="btn primary">Create my EESA account</button><button type="button" id="show-login" class="btn ghost">Back to sign in</button></div>
+    </form>
+    <p id="auth-message" class="form-message" role="alert"></p>
+  </section>
+
+  <section id="portal-app" class="hidden">
+    <div class="portal-top"><div><div class="eyebrow">EESA member dashboard</div><h1 id="welcome">Welcome back</h1><p id="role-line"></p></div><button id="logout" class="btn ghost">Sign out</button></div>
+    <div class="portal-grid"><article class="dash-card"><span class="icon">◷</span><strong id="dash-events">—</strong><span>Upcoming events</span></article><article class="dash-card"><span class="icon">◇</span><strong id="dash-projects">—</strong><span>Projects</span></article><article class="dash-card"><span class="icon">!</span><strong id="dash-notices">—</strong><span>Published notices</span></article></div>
+
+    <section class="panel profile-panel"><div class="section-head"><div><div class="eyebrow">My account</div><h2>Student profile</h2></div></div><div id="profile-grid" class="profile-grid"></div></section>
+
+    <div class="portal-panels">
+      <section id="events" class="panel"><div class="section-head"><div><div class="eyebrow">Discover</div><h2>Events</h2></div></div><div id="portal-events" class="stack"></div></section>
+      <section id="projects" class="panel"><div class="section-head"><div><div class="eyebrow">Student innovation</div><h2>Mega & Micro Projects</h2></div><button id="submit-project" class="btn primary">＋ Submit your project</button></div><p class="muted-note">Submit a project with the technical details you want EESA to showcase. Publication is reviewed by the EESA team.</p><div id="portal-projects" class="stack"></div></section>
+      <section id="notices" class="panel"><div class="section-head"><div><div class="eyebrow">Updates</div><h2>Notices</h2></div></div><div id="portal-notices" class="stack"></div></section>
+    </div>
+    <section id="activity" class="panel">
+      <div class="section-head"><div><div class="eyebrow">Your activity</div><h2>My applications & registrations</h2></div></div>
+      <div class="activity-grid">
+        <div><h3>Project applications</h3><div id="my-applications" class="stack"></div></div>
+        <div><h3>Event registrations</h3><div id="my-registrations" class="stack"></div></div>
+      </div>
+    </section>
+    <div id="committee-entry" class="hidden committee-entry"><div><div class="eyebrow">Committee</div><h2>Control room</h2><p>Create events, projects and notices, manage members and assign committee positions.</p></div><a class="btn primary" href="./admin.html">Open Control Room</a></div>
+  </section>
+</main>
+<div id="project-submit-dialog" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="project-submit-title">
+  <div class="modal">
+    <form id="project-submit-form">
+      <div class="modal-head">
+        <div><div class="eyebrow">EESA project showcase</div><h2 id="project-submit-title">Submit your project</h2></div>
+        <button type="button" id="close-project-submit" class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-scroll">
+        <p class="muted-note">Tell us about your Micro or Mega Project. Your submission will be reviewed by the EESA team before publication.</p>
+        <div class="form-section-title">Identity</div>
+        <label>Project title *<input name="title" required></label>
+        <label>Project scale<select name="projectScale"><option value="micro">Micro Project</option><option value="mega">Mega Project</option></select></label>
+        <label>Project category<select name="category"><option>Embedded Systems</option><option>Power & Energy</option><option>Automation</option><option>Renewable Energy</option><option>Electrical Machines</option><option>Power Electronics</option><option>IoT</option><option>Control Systems</option><option>EV / Mobility</option><option>Other</option></select></label>
+        <label>Tagline<input name="tagline" placeholder="One sentence that explains the project"></label>
+        <label>Description *<textarea name="description" required></textarea></label>
+        <div class="form-section-title">People</div>
+        <label>Project builders / team members<textarea name="buildersText" placeholder="Name — role
+Name — role
+Name — role"></textarea></label>
+        <div class="muted-note form-help">One builder per line. Example: Rahul Patil — Hardware Lead</div>
+        <label>Faculty / industry mentor<input name="mentor"></label>
+        <label>Open roles<input name="openRoles" placeholder="Embedded, PCB, Testing"></label>
+        <div class="form-section-title">Technical details</div>
+        <label>Problem statement<textarea name="problemStatement"></textarea></label>
+        <label>Objectives<textarea name="objectives"></textarea></label>
+        <label>Proposed solution<textarea name="solution"></textarea></label>
+        <label>Key features<textarea name="features"></textarea></label>
+        <label>Hardware / components<textarea name="hardware" placeholder="Arduino, sensors, contactors..."></textarea></label>
+        <label>Software / firmware<textarea name="software" placeholder="Arduino IDE, MATLAB, Python..."></textarea></label>
+        <label>Methodology<textarea name="methodology"></textarea></label>
+        <div class="form-section-title">Results & practical information</div>
+        <label>Expected / achieved outcomes<textarea name="outcomes"></textarea></label>
+        <label>Innovation / uniqueness<textarea name="innovation"></textarea></label>
+        <label>Applications<textarea name="applications"></textarea></label>
+        <label>Estimated budget<input name="budget" placeholder="₹ 5,000"></label>
+        <label>Project duration<input name="duration" placeholder="8 weeks"></label>
+        <label>Academic year<input name="academicYear" placeholder="2026–27"></label>
+        <label>Project status<select name="projectStatus"><option>Idea</option><option>In Development</option><option>Prototype Ready</option><option>Testing</option><option>Completed</option></select></label>
+        <div class="form-section-title">Links</div>
+        <label>GitHub / repository URL<input name="repositoryUrl" type="url"></label>
+        <label>Demo URL<input name="demoUrl" type="url"></label>
+        <label>Documentation URL<input name="documentationUrl" type="url"></label>
+      </div>
+      <div class="modal-actions"><button type="button" id="cancel-project-submit" class="btn ghost">Cancel</button><button type="submit" class="btn primary">Submit for review</button></div>
+    </form>
+  </div>
+</div>
+
+<dialog id="project-dialog" class="modal"><form method="dialog" id="project-interest-form">
+  <div class="modal-head"><div><div class="eyebrow">Join a project</div><h2 id="project-dialog-title">Express interest</h2></div><button type="button" id="close-project-dialog" class="icon-btn" aria-label="Close">×</button></div>
+  <p id="project-dialog-info" class="muted-note"></p>
+  <label>Message to the project team<textarea id="project-message" rows="5" placeholder="Tell the team what you can contribute..."></textarea></label>
+  <div class="modal-actions"><button type="button" id="cancel-project-dialog" class="btn ghost">Cancel</button><button type="submit" class="btn primary">Send application</button></div>
+</form></dialog>
+<nav class="mobile-nav"><a href="./index.html">⌂<span>Home</span></a><a href="#events">◷<span>Events</span></a><a href="#projects">◇<span>Projects</span></a><a href="#activity">◎<span>My activity</span></a><a href="./portal.html">○<span>Portal</span></a></nav>
+<script>
+window.addEventListener("error",function(e){
+  const el=document.getElementById("auth-message");
+  if(el && !el.textContent.trim()) { el.textContent="EESA could not load its login module. Please refresh and try again."; el.style.color="var(--danger)"; }
+  console.error("EESA page error:",e.error||e.message);
+});
+window.addEventListener("unhandledrejection",function(e){
+  const el=document.getElementById("auth-message");
+  if(el && !el.textContent.trim()) { el.textContent="EESA login encountered a browser error. Please refresh and try again."; el.style.color="var(--danger)"; }
+  console.error("EESA unhandled rejection:",e.reason);
+});
+const loginBoot=document.getElementById("login");
+if(loginBoot){ loginBoot.addEventListener("click",function(){
+  const el=document.getElementById("auth-message");
+  if(el && !el.textContent.trim()) { el.textContent="Starting EESA sign-in…"; el.style.color="var(--muted)"; }
+},{once:false}); }
+</script>
+<script type="module">
+import("./js/portal.js?v=4.1").catch(function(err){
+  const el=document.getElementById("auth-message");
+  if(el){ el.textContent="EESA login could not load. Please refresh the page. Details: "+(err?.message||"module loading error"); el.style.color="var(--danger)"; }
+  console.error("EESA portal module failed to load:",err);
+});
+</script>
+</body>
+</html>
